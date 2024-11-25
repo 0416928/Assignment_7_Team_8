@@ -8,7 +8,7 @@ Module_07
 
 - Developer 1: Gaganpreet Kaur
 - Developer 2: Shannon Petkau
-- Developer 3: {Enter Student Name Here}
+- Developer 3: Rajandeep Kaur
 
 ## Assignment
 

@@ -43,7 +43,7 @@ class InputHandler:
 
     @property   ## ACCESSOR
     def file_path(self) -> str:
-        """
+        """ 
         This is a accessor method which allows controlled access to a private attribute.
         Return:
             str
@@ -79,7 +79,7 @@ class InputHandler:
         Return:
             list
         Raises:
-            ValueError: "Invalid file extension to perform actions"
+            FileNotFoundError: "Invalid file extension to perform actions"
         """
         if not path.isfile(self.__file_path):
             raise FileNotFoundError(f"File: {self.__file_path} does not exist.")
