@@ -5,8 +5,8 @@ Date: 11-22-2024
 """
 
 
-__author__ = ""
-__version__ = ""
+__author__ = "Gaganpreet Kaur"
+__version__ = "branch_issue_01"
 
 # IMPORTS
 import csv
@@ -21,6 +21,7 @@ class InputHandler:
     
     Attributes: 
         file_path(str): The path of a file.
+    
     Methods: 
         __init__(self,file_path)
         file_path(self) -> str
@@ -36,7 +37,7 @@ class InputHandler:
         Initializes the class with the given parameters.
 
         Parameters:
-        - file_path (str): This is a path to the file.
+            file_path (str): This is a path to the file.
         """
 
         self.__file_path = file_path
@@ -45,6 +46,7 @@ class InputHandler:
     def file_path(self) -> str:
         """ 
         This is a accessor method which allows controlled access to a private attribute.
+        
         Return:
             str
         """
@@ -53,6 +55,7 @@ class InputHandler:
     def get_file_format(self) -> str:
         """
         This function is taking the file and extracting from file path.
+        
         Return:
             str
         """
@@ -61,6 +64,7 @@ class InputHandler:
     def read_input_data(self) -> list:
         """
         This method is reading the file after choosing the format and saving it to a transactions list.
+        
         Return:
             list
         """
@@ -76,8 +80,10 @@ class InputHandler:
     def read_csv_data(self) -> list:
         """
         This method is opening the csv file and reading it.
+       
         Return:
             list
+       
         Raises:
             FileNotFoundError: "Invalid file extension to perform actions"
         """
@@ -96,9 +102,11 @@ class InputHandler:
     def read_json_data(self) -> list:
         """
         This method is opening the json file and reading it.
+        
         Return 
             list
-        Raises:
+       
+         Raises:
             ValueError: "Invalid file extension to perform actions"
 
         """
