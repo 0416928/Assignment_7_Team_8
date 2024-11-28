@@ -1,8 +1,11 @@
-"""REQUIRED MODULE DOCUMENTATION
+"""
+Description: Unit tests for DataProcessor Class.
+Usage: to execute tests:
+    py -m unittest -v tests/test_data_processor.py
 """
 
-__author__ = ""
-__version__ = ""
+__author__ = "Shannon Petkau"
+__version__ = "branch_issue_2"
 
 import unittest
 from unittest import TestCase
@@ -44,6 +47,149 @@ class TestDataProcessor(TestCase):
         ]
 
     # Define unit test functions below
+
+    def test_update_account_summary_deposit(self):
+        # Arrange
+        account_summaries = {
+                "account_number": 1001,
+                "balance": 0,
+                "total_deposits": 0,
+                "total_withdrawals": 0
+            }
+        
+        transaction = {"account_number": 1001,
+                       "transaction_type": "deposit",
+                       "amount": 1200}
+        
+        account_number = transaction["account_number"]
+        transaction_type = transaction["transaction_type"]
+        amount = float(transaction["amount"])
+
+        account_summaries["balance"] += amount
+        account_summaries["total_deposits"] += amount
+
+        # Act
+        expected = {
+                "account_number": 1001,
+                "balance": 1200,
+                "total_deposits": 1200,
+                "total_withdrawals": 0
+            }
+        
+        actual = account_summaries
+
+        # Assert
+        self.assertEqual(expected, actual)
+
+
+    def test_update_account_summary_withdraw(self):
+        # Arrange
+        account_summaries = {
+                "account_number": 1001,
+                "balance": 1200,
+                "total_deposits": 0,
+                "total_withdrawals": 0
+            }
+        
+        transaction = {"account_number": 1001,
+                       "transaction_type": "withdraw",
+                       "amount": 300}
+        
+        account_number = transaction["account_number"]
+        transaction_type = transaction["transaction_type"]
+        amount = float(transaction["amount"])
+
+        account_summaries["balance"] -= amount
+        account_summaries["total_withdrawals"] += amount
+
+        # Act
+        expected = {
+                "account_number": 1001,
+                "balance": 900,
+                "total_deposits": 0,
+                "total_withdrawals": 300
+            }
+        
+        actual = account_summaries
+
+        # Assert
+        self.assertEqual(expected, actual)
+    
+
+    def test_check_suspicious_transactions_large_amount(self):
+        # Arrange
+        transaction_over_threshold = {"Transaction ID": 11, 
+                                      "Account number": 1001, 
+                                      "Date": "2023-03-13", 
+                                      "Transaction type": "deposit", 
+                                      "Amount": 12000, 
+                                      "Currency": "CAD", 
+                                      "Description": "Car Sale"}
+        
+        processor = DataProcessor([])
+
+        # Act
+        processor.check_suspicious_transactions(transaction_over_threshold)
+
+        # Assert
+        self.assertIn(transaction_over_threshold, processor.suspicious_transactions)
+
+
+    def test_check_suspicious_transactions_uncommon_currency(self):
+        # Arrange
+        transaction_uncommon_currency = {"Transaction ID": 27, 
+                                      "Account number": 1005, 
+                                      "Date": "2023-03-14", 
+                                      "Transaction type": "deposit", 
+                                      "Amount": 2030, 
+                                      "Currency": "XRP", 
+                                      "Description": "Crypto Investment"}
+        
+        processor = DataProcessor([])
+
+        # Act
+        processor.check_suspicious_transactions(transaction_uncommon_currency)
+
+        # Assert
+        self.assertIn(transaction_uncommon_currency, processor.suspicious_transactions)
+
+    def test_check_suspicious_transactions_not_suspicious(self):
+        # Arrange
+        not_in_suspicious_transactions = {"Transaction ID": 3,
+                                          "Account number": 1001,
+                                          "Date": "2023-03-02",
+                                          "Transaction type": "withdrawal",
+                                          "Amount": 300,
+                                          "Currency": "CAD",
+                                          "Description": "Groceries"}
+        
+        processor = DataProcessor([])
+
+        # Act
+        processor.check_suspicious_transactions(not_in_suspicious_transactions)
+
+        # Assert
+        self.assertNotIn(not_in_suspicious_transactions, processor.suspicious_transactions)
+    
+
+    def update_transaction_statistics(self):
+        # Arrange
+        transaction = {"Transaction ID": 3,
+                       "Account number": 1001,
+                       "Date": "2023-03-02",
+                       "Transaction type": "withdrawal",
+                       "Amount": 300,
+                       "Currency": "CAD",
+                       "Description": "Groceries"}
+
+        processor = DataProcessor([])
+
+        # Act
+        processor.update_transaction_statistics(transaction)
+
+        # Arrange
+        self.assertIn(transaction, processor.transaction_statistics)
+
 
 if __name__ == "__main__":
     unittest.main()
