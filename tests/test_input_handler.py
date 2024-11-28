@@ -4,8 +4,8 @@ Author: Gaganpreet Kaur
 Date: November 24, 2024
 """
 
-__author__ = ""
-__version__ = ""
+__author__ = "Gaganpreet Kaur"
+__version__ = "branch_issue_01"
 
 # IMPORTS
 import unittest
