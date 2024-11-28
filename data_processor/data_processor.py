@@ -40,12 +40,14 @@ class DataProcessor:
         """
         Initialize a new DataProcessor list, with transactions,
         account_summaries, suspicious_transactions, and transaction_statistics.
+        
         Args:
             transactions(str): the transaction type.
             account_summaries(dict): a summary of account activity
             suspicious_transactions(list): list of any suspicious transactions
             transaction_statistics(dict): a dictionary of an average of what types
             of transactions a user has engaged in.
+        
         Returns:
             None
         """
@@ -105,11 +107,13 @@ class DataProcessor:
     def update_account_summary(self, transaction: dict) -> None:
         """
         Updates account summary if new transaction has gone through.
+        
         Args:
             account_number(int): the account number of the account processed
             transaction_type(str): the type of transaction the account holder
             used.
             amount(float): the amount of money used in the transaction
+        
         Returns:
             None
         """
@@ -136,10 +140,12 @@ class DataProcessor:
         """
         Checks if the transaction is suspicious by looking to see if amount is 
         higher than LARGE_TRANSACTION_THRESHOLD or currency is in UNCOMMON_CURRENCIES.
+        
         Args:
             amount(float): the amount of money that the transaction is doing 
             something to.
             currency(str): the type of currencies that the money is in.
+        
         Returns:
             None
         """
@@ -154,9 +160,11 @@ class DataProcessor:
         """
         Updates transaction statistics when to transaction dictionary 
         when user enters a new transaction.
+        
         Args:
             transaction_type(str): the type of transaction entered.
             amount(float): the amount of money entered.
+        
         Returns:
             None
         """
@@ -175,9 +183,11 @@ class DataProcessor:
     def get_average_transaction_amount(self, transaction_type: str) -> float:
         """
         Gets the average transaction amount.
+        
         Args:
             total_amount(float): the total amount of transaction
             transaction_count(float): the count of transactions entered
+        
         Returns:
             the total_amount / transaction_count if the transaction_count is above zero                
         """
