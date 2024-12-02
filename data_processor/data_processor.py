@@ -8,6 +8,8 @@ from data_processor.data_processor import DataProcessor
 __author__ = "Shannon Petkau"
 __version__ = "branch_issue_2"
 
+import logging
+
 class DataProcessor:
     """
     A class that processes data.
@@ -36,13 +38,19 @@ class DataProcessor:
     suspicious transaction.
     """
 
-    def __init__(self, transactions: list):
+    def __init__(self, transactions: list,
+                 logging_level = logging.WARNING,
+                 logging_format = "%(asctime)s - %(levelname)s - %(message)s",
+                 log_file = None):
         """
         Initialize a new DataProcessor list, with transactions,
         account_summaries, suspicious_transactions, and transaction_statistics.
         
         Args:
             transactions(str): the transaction type.
+            logging_level(str): the logging level
+            logging_format(str): the format to show logging on console
+            log_file(str): the file that contains the logs
             account_summaries(dict): a summary of account activity
             suspicious_transactions(list): list of any suspicious transactions
             transaction_statistics(dict): a dictionary of an average of what types
@@ -51,6 +59,13 @@ class DataProcessor:
         Returns:
             None
         """
+        
+        logging.basicConfig(level=logging_level,
+                            format=logging_format,
+                            filename=log_file if log_file else None,
+                            filemode='w' if log_file else None)
+        self.logger = logging.getLogger(__name__)
+
         self.__transactions = transactions
         self.__account_summaries = {}
         self.__suspicious_transactions = []
@@ -92,16 +107,22 @@ class DataProcessor:
             account_summaries: for accounts processed
             suspicious_transaction: if transaction is suspicious
             transaction_statistics: shows statistics of transactions for account
+            logging.INFO: logs Data Processing Complete when processing data has
+            been completed
         """
+
         for transaction in self.__transactions:
             self.update_account_summary(transaction)
             self.check_suspicious_transactions(transaction)
             self.update_transaction_statistics(transaction)
 
+        # Log info when processing is completed
+        self.logger.info("Data Processing Complete")
+
         return {
             "account_summaries": self.__account_summaries,
             "suspicious_transactions": self.__suspicious_transactions,
-            "transaction_statistics": self.__transaction_statistics
+            "transaction_statistics": self.__transaction_statistics,
         }
 
     def update_account_summary(self, transaction: dict) -> None:
@@ -132,9 +153,17 @@ class DataProcessor:
         if transaction_type == "deposit":
             self.__account_summaries[account_number]["balance"] += amount
             self.__account_summaries[account_number]["total_deposits"] += amount
+            
+            # Log info if the account_summary is updated
+            self.logger.info(f"Account summary updated: {account_number}")
+
         elif transaction_type == "withdrawal":
             self.__account_summaries[account_number]["balance"] -= amount
             self.__account_summaries[account_number]["total_withdrawals"] += amount
+            
+            # Log info if the account_summary is updated
+            self.logger.info(f"Account summary updated: {account_number}")
+
 
     def check_suspicious_transactions(self, transaction: dict) -> None:
         """
@@ -155,6 +184,10 @@ class DataProcessor:
         if amount > self.LARGE_TRANSACTION_THRESHOLD \
             or currency in self.UNCOMMON_CURRENCIES:
             self.__suspicious_transactions.append(transaction)
+
+            # Log warning if the transaction is suspicious
+            self.logger.warning(f"Suspicious transaction: {transaction}")
+
 
     def update_transaction_statistics(self, transaction: dict) -> None:
         """
@@ -179,6 +212,7 @@ class DataProcessor:
 
         self.__transaction_statistics[transaction_type]["total_amount"] += amount
         self.__transaction_statistics[transaction_type]["transaction_count"] += 1
+        self.logger.info(f"Updated transaction for {transaction_type}")
 
     def get_average_transaction_amount(self, transaction_type: str) -> float:
         """
