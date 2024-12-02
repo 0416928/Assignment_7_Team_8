@@ -47,7 +47,7 @@ class DataProcessor:
         account_summaries, suspicious_transactions, and transaction_statistics.
         
         Args:
-            transactions(str): the transaction type.
+            transactions(list): the transaction type.
             logging_level(str): the logging level
             logging_format(str): the format to show logging on console
             log_file(str): the file that contains the logs

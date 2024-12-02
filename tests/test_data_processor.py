@@ -11,6 +11,7 @@ import unittest
 from unittest import TestCase
 from data_processor.data_processor import DataProcessor
 
+
 class TestDataProcessor(TestCase):
     """Defines the unit tests for the DataProcessor class."""
 
@@ -172,23 +173,52 @@ class TestDataProcessor(TestCase):
         self.assertNotIn(not_in_suspicious_transactions, processor.suspicious_transactions)
     
 
-    def update_transaction_statistics(self):
+    def test_update_transaction_statistics(self):
         # Arrange
-        transaction = {"Transaction ID": 3,
-                       "Account number": 1001,
-                       "Date": "2023-03-02",
-                       "Transaction type": "withdrawal",
-                       "Amount": 300,
-                       "Currency": "CAD",
-                       "Description": "Groceries"}
+        transaction1 = {
+            "Transaction type": "withdrawal",
+            "Amount": 100.0
+        }
+        transaction2 = {
+            "Transaction type": "deposit",
+            "Amount": 200.0
+        }
+        transaction3 = {
+            "Transaction type": "withdrawal",
+            "Amount": 50.0
+        }
+        
+        # Initialize the DataProcessor instance
+        processor = DataProcessor({})
 
-        processor = DataProcessor([])
+        # Act: Update transaction statistics with transactions
+        processor.update_transaction_statistics(transaction1)
+        processor.update_transaction_statistics(transaction2)
+        processor.update_transaction_statistics(transaction3)
 
-        # Act
-        processor.update_transaction_statistics(transaction)
+        # Assert: Check if dictionary is updated as expected
+        # 1. Check 'withdrawal' statistics
+        self.assertIn("withdrawal", processor._DataProcessor__transaction_statistics)
+        self.assertEqual(processor._DataProcessor__transaction_statistics["withdrawal"]["total_amount"], 150.0)
+        self.assertEqual(processor._DataProcessor__transaction_statistics["withdrawal"]["transaction_count"], 2)
 
+        # 2. Check 'deposit' statistics
+        self.assertIn("deposit", processor._DataProcessor__transaction_statistics)
+        self.assertEqual(processor._DataProcessor__transaction_statistics["deposit"]["total_amount"], 200.0)
+        self.assertEqual(processor._DataProcessor__transaction_statistics["deposit"]["transaction_count"], 1)
+
+        # 3. Ensure no other transaction types exist
+        self.assertNotIn("transfer", processor._DataProcessor__transaction_statistics)
+
+    def test_suspicious_transaction_logging_warning(self):
         # Arrange
-        self.assertIn(transaction, processor.transaction_statistics)
+        self.processor = DataProcessor(transactions=[])
+        transaction = {"Amount": 10001, "Currency": "CAD"}
+
+        # Act and Assert
+        with self.assertLogs(self.processor.logger, level='WARNING') as log:
+            self.processor.check_suspicious_transactions(transaction)
+            self.assertTrue(any("Suspicious transaction" in message for message in log.output))
 
 
 if __name__ == "__main__":
