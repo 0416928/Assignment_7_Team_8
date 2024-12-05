@@ -28,6 +28,9 @@ def main() -> None:
     # Create log_file path
     log_file = "output/fdp_team_8.log"
 
+    # Create log_file path
+    log_file = "output/fdp_team_8.log"
+
     # Retrieves the directory name of the current script or module file.
     current_directory = path.dirname(path.abspath(__file__))
 
@@ -48,7 +51,7 @@ def main() -> None:
     output_handler = OutputHandler(account_summaries, 
                                    suspicious_transactions, 
                                    transaction_statistics)
-
+    
     # Joins the current directory, the relative path to the output 
     # folder and the filename to create a complete path to each of the 
     # output files.
