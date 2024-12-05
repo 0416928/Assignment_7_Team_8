@@ -1,8 +1,15 @@
-"""REQUIRED MODULE DOCUMENTATION
+"""
+Description: A program that will process input files and 
+will then create output files that will show data account 
+summaries, suspicious transactions from the data, and 
+transaction statistics from the data.
+Usage: To run: Press the play button in the top left
+corner of VS code or in the terminal type: 
+py main.py
 """
 
-__author__ = ""
-__version__ = ""
+__author__ = "Shannon Petkau"
+__version__ = "branch_issue_5"
 
 from os import path
 from input_handler.input_handler import InputHandler
@@ -19,6 +26,9 @@ def main() -> None:
     OutputHandler.
     """
 
+    # Create log_file path
+    log_file = "output/fdp_team_8.log"
+
     # Retrieves the directory name of the current script or module file.
     current_directory = path.dirname(path.abspath(__file__))
 
@@ -29,7 +39,7 @@ def main() -> None:
     input_handler = InputHandler(input_file_path)
     transactions = input_handler.read_input_data()
 
-    data_processor = DataProcessor(transactions)
+    data_processor = DataProcessor(transactions, log_file=log_file)
     processed_data = data_processor.process_data()
 
 
@@ -39,7 +49,7 @@ def main() -> None:
     output_handler = OutputHandler(account_summaries, 
                                    suspicious_transactions, 
                                    transaction_statistics)
-
+    
     # Joins the current directory, the relative path to the output 
     # folder and the filename to create a complete path to each of the 
     # output files.

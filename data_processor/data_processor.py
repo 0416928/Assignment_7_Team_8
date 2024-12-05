@@ -6,7 +6,7 @@ from data_processor.data_processor import DataProcessor
 """
 
 __author__ = "Shannon Petkau"
-__version__ = "branch_issue_2"
+__version__ = "branch_issue_5"
 
 import logging
 
@@ -39,7 +39,7 @@ class DataProcessor:
     """
 
     def __init__(self, transactions: list,
-                 logging_level = logging.WARNING,
+                 logging_level = logging.INFO,
                  logging_format = "%(asctime)s - %(levelname)s - %(message)s",
                  log_file = None):
         """
