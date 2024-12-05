@@ -10,7 +10,6 @@ __version__ = "branch_issue_5"
 import unittest
 from unittest import TestCase
 from data_processor.data_processor import DataProcessor
-import re
 import main
 
 
