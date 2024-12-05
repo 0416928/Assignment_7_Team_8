@@ -18,6 +18,8 @@ def main() -> None:
     - Writes the processed data to CSV and JSON files using 
     OutputHandler.
     """
+    # Create log_file path
+    log_file = "output/fdp_team_8.log"
 
     # Retrieves the directory name of the current script or module file.
     current_directory = path.dirname(path.abspath(__file__))
@@ -29,7 +31,7 @@ def main() -> None:
     input_handler = InputHandler(input_file_path)
     transactions = input_handler.read_input_data()
 
-    data_processor = DataProcessor(transactions)
+    data_processor = DataProcessor(transactions, log_file=log_file)
     processed_data = data_processor.process_data()
 
 
