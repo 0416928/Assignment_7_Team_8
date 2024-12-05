@@ -1,8 +1,15 @@
-"""REQUIRED MODULE DOCUMENTATION
+"""
+Description: A program that will process input files and 
+will then create output files that will show data account 
+summaries, suspicious transactions from the data, and 
+transaction statistics from the data.
+Usage: To run: Press the play button in the top left
+corner of VS code or in the terminal type: 
+py main.py
 """
 
-__author__ = ""
-__version__ = ""
+__author__ = "Shannon Petkau"
+__version__ = "branch_issue_5"
 
 from os import path
 from input_handler.input_handler import InputHandler

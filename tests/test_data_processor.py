@@ -5,7 +5,7 @@ Usage: to execute tests:
 """
 
 __author__ = "Shannon Petkau"
-__version__ = "branch_issue_2"
+__version__ = "branch_issue_5"
 
 import unittest
 from unittest import TestCase
