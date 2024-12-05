@@ -25,6 +25,8 @@ def main() -> None:
     - Writes the processed data to CSV and JSON files using 
     OutputHandler.
     """
+    # Create log_file path
+    log_file = "output/fdp_team_8.log"
 
     # Create log_file path
     log_file = "output/fdp_team_8.log"

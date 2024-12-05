@@ -65,7 +65,7 @@ class DataProcessor:
                             filename=log_file if log_file else None,
                             filemode='w' if log_file else None)
         self.logger = logging.getLogger(__name__)
-
+       
         self.__transactions = transactions
         self.__account_summaries = {}
         self.__suspicious_transactions = []
@@ -153,7 +153,7 @@ class DataProcessor:
         if transaction_type == "deposit":
             self.__account_summaries[account_number]["balance"] += amount
             self.__account_summaries[account_number]["total_deposits"] += amount
-            
+        
             # Log info if the account_summary is updated
             self.logger.info(f"Account summary updated: {account_number}")
 
@@ -187,7 +187,6 @@ class DataProcessor:
 
             # Log warning if the transaction is suspicious
             self.logger.warning(f"Suspicious transaction: {transaction}")
-
 
     def update_transaction_statistics(self, transaction: dict) -> None:
         """
