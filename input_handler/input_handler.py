@@ -4,7 +4,6 @@ Name: Gaganpreet Kaur
 Date: 11-22-2024
 """
 
-
 __author__ = "Gaganpreet Kaur"
 __version__ = "branch_issue_01"
 
@@ -69,13 +68,17 @@ class InputHandler:
             list
         """
         transactions = []
+        valid_transactions = []
+     
         file_format = self.get_file_format()
         
         if file_format == "csv":
             transactions =  self.read_csv_data()
         elif file_format == "json":
             transactions = self.read_json_data()
-        return transactions
+
+        valid_transactions = self.data_validation(transactions)
+        return valid_transactions
 
     def read_csv_data(self) -> list:
         """
@@ -121,3 +124,27 @@ class InputHandler:
             transactions = json.load(input_file)
 
         return transactions
+    
+
+    def data_validation(self, transactions:list) -> list:
+        """
+        The method returns a list of dictionaries containing only valid transactions.
+
+        Args:
+            transactions (list): A list of dictionaries containing transaction data.
+
+        Return:
+            list
+        """
+        valid_data = []
+        for record in transactions:
+            amount = record['Amount']
+            transaction_type = record['Transaction type']
+
+            # Check if amount is numeric and non-negative, and validate transaction type
+            if isinstance(amount, (int, float)) and amount >= 0 and transaction_type in ["deposit", "withdrawal", "transfer"]:
+                valid_data.append(record)
+
+        return valid_data
+    
+

@@ -29,3 +29,5 @@ Transaction ID,Account number,Date,Transaction type,Amount,Currency,Description
 28,1006,2023-03-14,deposit,1520,LTC,Crypto Investment
 29,1007,2023-03-01,deposit,100,CAD,Salary
 30,1003,2023-03-01,deposit,150,CAD,Salary
+31,1003,2023-03-01,Invalid,Invalid_amount,CAD,Salary
+
